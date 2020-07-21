@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    alignItmes: 'center',
+    alignItems: 'center',
     borderTop: '1px solid #eee',
   },
 });
