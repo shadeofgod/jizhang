@@ -1,0 +1,49 @@
+{
+  "name": "xmind-fe",
+  "version": "1.0.0",
+  "description": "a demo for xmind fe interview",
+  "scripts": {
+    "start": "rm -rf ./dist && parcel index.html",
+    "build": "rm -rf ./bundle && parcel build index.html -d bundle",
+    "postinstall": "csvtojson bill.csv > ./src/data/bill.json && csvtojson categories.csv > ./src/data/categories.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zoubingwu@gmal.com",
+  "license": "MIT",
+  "dependencies": {
+    "antd-mobile": "^2.3.3",
+    "debug": "^4.1.1",
+    "immer": "^7.0.5",
+    "preact": "^10.4.6",
+    "react-jss": "^10.3.0",
+    "react-window": "^1.8.5",
+    "regenerator-runtime": "^0.13.5",
+    "reselect": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "csvtojson": "^2.0.10",
+    "husky": "^4.2.5",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom/test-utils": "preact/test-utils",
+    "react-dom": "preact/compat"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  }
+}
