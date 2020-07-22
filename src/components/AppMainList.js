@@ -1,6 +1,6 @@
 import 'antd-mobile/es/date-picker/style/css';
 
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import { FixedSizeList as List } from 'react-window';
 import DatePicker from 'antd-mobile/es/date-picker';
@@ -18,6 +18,7 @@ import {
   categoriesSelector,
 } from '../store/selectors';
 import { BILL_TYPE } from '../store/constants';
+import IconCalendar from '../images/ic_calendar.svg';
 
 const d = debug('AppMainList');
 
@@ -28,19 +29,20 @@ const useStyles = createUseStyles({
     height: '100%',
   },
   header: {
-    height: 240,
-    background: `url(${require('../images/bg.jpg')})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: '100%',
-    display: 'flex',
-    alignItems: 'flex-end',
-    padding: 24,
+    height: 150,
+    background:
+      'linear-gradient(180deg,rgba(78,98,149,1) 0%,rgba(90,113,170,1) 1%,rgba(52,68,116,1) 100%)',
+    borderRadius: 15,
+    padding: 18,
     color: '#fff',
-    position: 'relative',
   },
-  totolExpense: {
+  desc: {
+    opacity: 0.5,
+  },
+  totalExpense: {
     fontSize: 36,
     margin: [6, 0],
+    marginBottom: 20,
   },
   totalIncome: {
     marginRight: 6,
@@ -48,27 +50,35 @@ const useStyles = createUseStyles({
   balance: {
     marginLeft: 6,
   },
+  filters: {
+    display: 'flex',
+    margin: [20, 0],
+  },
   picker: {
+    color: '#fff',
+    fontSize: 12,
+    borderRadius: 12,
+    padding: [4, 8, 4, 6],
+    display: 'flex',
+    alignItems: 'center',
+    background: 'rgba(255,255,255,0.2)',
     '& > svg': {
-      height: 18,
-      width: 18,
-      marginRight: 8,
+      marginRight: 6,
       fill: '#fff',
     },
     '& > .title': {
-      fontSize: 24,
       position: 'relative',
       '&:after': {
         display: 'inline-block',
         content: '" "',
         width: 0,
         height: 0,
-        position: 'absolute',
-        top: 10,
-        right: -12,
-        borderLeft: '4px solid transparent',
-        borderRight: '4px solid transparent',
-        borderTop: '6px solid white',
+        marginLeft: 4,
+        position: 'relative',
+        top: -2,
+        borderLeft: '2px solid transparent',
+        borderRight: '2px solid transparent',
+        borderTop: '4px solid white',
       },
     },
     '& .year': {
@@ -80,22 +90,35 @@ const useStyles = createUseStyles({
     },
   },
   empty: {
-    fontSize: 18,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
-    color: '#7d7b7b',
+    fontSize: 18,
+    color: 'rgba(255,255,255,0.5)',
+    display: 'flex',
+    flexDirection: 'column',
+    jutifyContent: 'center',
+    alignItems: 'center',
   },
-  list: {},
+  emptyImage: {
+    height: 150,
+    width: 150,
+    margin: [40, 0],
+  },
   listItem: {
-    color: '#373737',
+    color: '#fff',
     display: 'flex',
     alignItems: 'center',
-    padding: [0, 12],
+  },
+  listItemDesc: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
   },
   time: {
-    flexBasis: 100,
+    color: 'rgba(255,255,255,0.5)',
+    fontSize: 12,
+    '& > span:first-child': {
+      marginRight: 4,
+    },
   },
   name: {
     flex: 1,
@@ -111,9 +134,7 @@ const useStyles = createUseStyles({
 function Item({ onClick, className, currentDate }) {
   return (
     <div onClick={onClick} className={className}>
-      <svg viewBox="0 0 448 512">
-        <path d="M148 288h-40c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12zm108-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 96v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm-96 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm192 0v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm96-260v352c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h48V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h128V12c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v52h48c26.5 0 48 21.5 48 48zm-48 346V160H48v298c0 3.3 2.7 6 6 6h340c3.3 0 6-2.7 6-6z" />
-      </svg>
+      <IconCalendar width="14px" height="14px" />
 
       <span className="title">
         <span className="year">{currentDate.getFullYear()}</span>年
@@ -123,7 +144,7 @@ function Item({ onClick, className, currentDate }) {
   );
 }
 
-function formatSpringNumber(value) {
+function formatNumber(value) {
   return value
     .toFixed(2)
     .toString()
@@ -151,6 +172,7 @@ function AppMainList() {
     ({ index, style }) => {
       const rowData = billsByMonth[index];
       const date = new Date(parseInt(rowData.time));
+      const month = date.getMonth() + 1;
       const days = date.getDate();
       const hours = date.getHours();
       const minutes = date.getMinutes();
@@ -158,19 +180,24 @@ function AppMainList() {
 
       return (
         <div style={style} className={classes.listItem}>
-          <span className={classes.time}>{`${formatTimeByPadStart(
-            days
-          )}日 ${formatTimeByPadStart(hours)}:${formatTimeByPadStart(
-            minutes
-          )}`}</span>
-          <span className={classes.name}>{category.name}</span>
-          <span
+          <div className={classes.listItemDesc}>
+            <span className={classes.name}>{category.name}</span>
+            <span className={classes.time}>
+              <span>{`${formatTimeByPadStart(month)}-${formatTimeByPadStart(
+                days
+              )}`}</span>
+              <span>{`${formatTimeByPadStart(hours)}:${formatTimeByPadStart(
+                minutes
+              )}`}</span>
+            </span>
+          </div>
+          <div
             className={cx({
               [classes.income]: rowData.type === BILL_TYPE.INCOME,
               [classes.expense]: rowData.type === BILL_TYPE.EXPENSE,
             })}>
-            {formatSpringNumber(parseInt(rowData.amount))}
-          </span>
+            {formatNumber(parseInt(rowData.amount))}
+          </div>
         </div>
       );
     },
@@ -178,48 +205,56 @@ function AppMainList() {
   );
 
   return (
-    <div className={classes.container}>
+    <Fragment>
       <header className={classes.header}>
-        <div className={classes.content}>
-          <DatePicker
-            mode="month"
-            value={currentDate}
-            minDate={new Date(minYear, 0, 1)}
-            maxDate={new Date()}
-            onChange={(date) => {
-              dispatch(setCurrentDate(date));
-            }}>
-            <Item className={classes.picker} currentDate={currentDate} />
-          </DatePicker>
-
-          <div className={classes.totolExpense}>
-            {formatSpringNumber(totalExpenseTween)}
-          </div>
-
-          <div>
-            <span className={classes.totalIncome}>
-              本月收入：{formatSpringNumber(totalIncome)}
-            </span>
-            <span className={classes.balance}>
-              | 结余：{formatSpringNumber(totalIncome - totalExpense)}
-            </span>
-          </div>
+        <div>{`${currentDate.getMonth() + 1} 月账单`}</div>
+        <div className={classes.totalExpense}>
+          {formatNumber(totalExpenseTween)}
+        </div>
+        <div className={classes.desc}>
+          <span className={classes.totalIncome}>
+            本月收入：{formatNumber(totalIncome)}
+          </span>
+          <span>|</span>
+          <span className={classes.balance}>
+            结余：{formatNumber(totalIncome - totalExpense)}
+          </span>
         </div>
       </header>
+
+      <div className={classes.filters}>
+        <DatePicker
+          mode="month"
+          value={currentDate}
+          minDate={new Date(minYear, 0, 1)}
+          maxDate={new Date()}
+          onChange={(date) => {
+            dispatch(setCurrentDate(date));
+          }}>
+          <Item className={classes.picker} currentDate={currentDate} />
+        </DatePicker>
+      </div>
 
       {billsByMonth.length > 0 ? (
         <List
           className={classes.list}
-          height={document.body.clientHeight - 360}
+          height={document.body.clientHeight - 300}
           itemCount={billsByMonth.length}
           itemSize={50}
-          width={'100vw'}>
+          width={document.body.clientWidth - 40}>
           {Row}
         </List>
       ) : (
-        <div className={classes.empty}>这个月还没有记过账哦</div>
+        <div className={classes.empty}>
+          <img
+            src={require('../images/none.png')}
+            alt=""
+            className={classes.emptyImage}
+          />
+          <div>暂无记录</div>
+        </div>
       )}
-    </div>
+    </Fragment>
   );
 }
 
