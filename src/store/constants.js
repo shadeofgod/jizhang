@@ -1,4 +1,4 @@
 export const BILL_TYPE = {
-  EXPENSE: '1',
-  INCOME: '0',
+  EXPENSE: '0',
+  INCOME: '1',
 };

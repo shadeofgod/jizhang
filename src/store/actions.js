@@ -15,9 +15,14 @@ function createActionCreator(actionType, transformer = noop) {
 
 export const fetchData = createActionCreator(actionsTypes.FETCH_DATA);
 
+let i = 0;
+
 export const fetchDataDone = createActionCreator(
   actionsTypes.FETCH_DATA_DONE,
-  (bills, categories) => ({ bills, categories })
+  (bills, categories) => ({
+    bills: bills.map((item) => ({ ...item, id: ++i })),
+    categories,
+  })
 );
 
 export const setCurrentDate = createActionCreator(

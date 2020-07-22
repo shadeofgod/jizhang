@@ -18,7 +18,7 @@ export const reducers = {
 function fetchDataDone(state, { payload }) {
   const { bills, categories } = payload;
   state.bills = bills.reduce((a, b) => {
-    a[b.time] = b;
+    a[b.id] = b;
     return a;
   }, {});
   state.categories = categories.reduce((a, b) => {
@@ -34,14 +34,14 @@ function fetchDataDone(state, { payload }) {
     if (!state.billsTree[year]) {
       state.billsTree[year] = {};
       state.billsTree[year][month] = {};
-      state.billsTree[year][month][type] = [bill.time];
+      state.billsTree[year][month][type] = [bill.id];
     } else if (!state.billsTree[year][month]) {
       state.billsTree[year][month] = {};
-      state.billsTree[year][month][type] = [bill.time];
+      state.billsTree[year][month][type] = [bill.id];
     } else if (!state.billsTree[year][month][type]) {
-      state.billsTree[year][month][type] = [bill.time];
+      state.billsTree[year][month][type] = [bill.id];
     } else {
-      state.billsTree[year][month][type].push(bill.time);
+      state.billsTree[year][month][type].push(bill.id);
     }
   });
 }

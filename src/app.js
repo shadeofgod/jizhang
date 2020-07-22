@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import AppNavBar from './components/AppNavBar';
 import AppMainList from './components/AppMainList';
 import { useStore } from './store/useStore';
 import { initialState, reducers } from './store/reducers';
@@ -18,7 +17,6 @@ export function App() {
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
         <AppMainList />
-        <AppNavBar />
       </DispatchContext.Provider>
     </StateContext.Provider>
   );
