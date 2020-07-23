@@ -8,11 +8,15 @@ export const initialState = {
   // year -> month -> type -> bill[]
   billsTree: {},
   currentDate: new Date(),
+
+  showForm: false,
 };
 
 export const reducers = {
   [actionsTypes.FETCH_DATA_DONE]: fetchDataDone,
   [actionsTypes.SET_CURRENT_DATE]: setCurrentDate,
+  [actionsTypes.OPEN_FORM]: openForm,
+  [actionsTypes.CLOSE_FORM]: closeForm,
 };
 
 function fetchDataDone(state, { payload }) {
@@ -48,4 +52,12 @@ function fetchDataDone(state, { payload }) {
 
 function setCurrentDate(state, { payload }) {
   state.currentDate = payload.date;
+}
+
+function openForm(state) {
+  state.showForm = true;
+}
+
+function closeForm(state) {
+  state.showForm = false;
 }

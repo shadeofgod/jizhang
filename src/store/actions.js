@@ -4,6 +4,8 @@ export const actionsTypes = {
   FETCH_DATA: 'FETCH_DATA',
   FETCH_DATA_DONE: 'FETCH_DATA_DONE',
   SET_CURRENT_DATE: 'SET_CURRENT_DATE',
+  OPEN_FORM: 'OPEN_FORM',
+  CLOSE_FORM: 'CLOSE_FORM',
 };
 
 function createActionCreator(actionType, transformer = noop) {
@@ -29,3 +31,7 @@ export const setCurrentDate = createActionCreator(
   actionsTypes.SET_CURRENT_DATE,
   (date) => ({ date })
 );
+
+export const openForm = createActionCreator(actionsTypes.OPEN_FORM);
+
+export const closeForm = createActionCreator(actionsTypes.CLOSE_FORM);
