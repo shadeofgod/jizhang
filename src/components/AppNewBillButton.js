@@ -6,10 +6,10 @@ import { openForm } from '../store/actions';
 const useStyles = createUseStyles({
   button: {
     position: 'absolute',
-    bottom: 30,
-    right: 30,
-    height: 80,
-    width: 80,
+    bottom: 20,
+    right: 20,
+    height: 60,
+    width: 60,
   },
 });
 
