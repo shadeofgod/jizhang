@@ -7,43 +7,59 @@ import { closeForm } from '../store/actions';
 
 const useStyles = createUseStyles({
   container: {
-    height: '100%',
+    height: '85%',
     width: '100%',
     position: 'fixed',
     bottom: 0,
     left: 0,
     backgroundColor: '#fff',
-    borderTopLeftRadius: '14px',
-    borderTopRightRadius: '14px',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    zIndex: 20,
   },
 });
 
-const SHOW = 10;
-const HIDE = 100;
+const FOREGROUND_TRANSLATE_END = 0;
+const FOREGROUND_TRANSLATE_START = 100;
+const BACKGROUND_TRANSLATE_START = 0;
+const BACKGROUND_TRANSLATE_END = -20;
 
-function AppNewBillForm() {
+function AppNewBillForm({ setBackgroundView }) {
   const classes = useStyles();
   const show = useSelector((state) => state.showForm);
   const dispatch = useDispatch();
   const formHeightRef = useRef();
   const formDomNode = useRef();
 
-  const [{ translateY }, set] = useSpring(() => ({
+  const [{ translateY }, setForegroundView] = useSpring(() => ({
     translateY: 100,
     config: {
       tension: 280,
+      friction: 22,
+      clamp: true, // stops once it hits boundary
     },
   }));
   const bind = useDrag(({ down, movement: [_, my] }) => {
-    const to = 0 + Math.ceil((my / formHeightRef.current) * 100);
+    const fgView = 0 + Math.ceil((my / formHeightRef.current) * 100);
+    const bgView = Math.ceil(
+      BACKGROUND_TRANSLATE_END * (1 - my / formHeightRef.current)
+    );
+
     if (down) {
-      set({ translateY: Math.max(to, SHOW) });
+      setForegroundView({
+        translateY: Math.max(fgView, FOREGROUND_TRANSLATE_END),
+      });
+      setBackgroundView({
+        translateZ: Math.max(bgView, BACKGROUND_TRANSLATE_END),
+      });
     } else {
-      const shouldClose = to > 30;
+      const shouldClose = fgView > 30; // when finger lifted, 30% offet makes it back to starting point(show or close point)
       if (shouldClose) {
         dispatch(closeForm());
+        setBackgroundView({ translateZ: BACKGROUND_TRANSLATE_START });
       } else {
-        set({ translateY: SHOW });
+        setForegroundView({ translateY: FOREGROUND_TRANSLATE_END });
+        setBackgroundView({ translateZ: BACKGROUND_TRANSLATE_END });
       }
     }
   });
@@ -53,7 +69,10 @@ function AppNewBillForm() {
   }, []);
 
   useEffect(() => {
-    set({ translateY: show ? SHOW : HIDE });
+    setForegroundView({
+      translateY: show ? FOREGROUND_TRANSLATE_END : FOREGROUND_TRANSLATE_START,
+    });
+    setBackgroundView({ translateZ: show ? -20 : 0 });
   }, [show]);
 
   return (

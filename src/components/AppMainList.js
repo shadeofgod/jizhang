@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import AppNewBillButton from './AppNewBillButton';
 import AppMainListHeader from './AppMainListHeader';
 import AppMainListFilters from './AppMainListFilters';
