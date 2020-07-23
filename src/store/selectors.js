@@ -12,7 +12,9 @@ export const categoriesSelector = (state) => state.categories;
 export const minYearSelector = createSelector(billsTreeSelector, (tree) => {
   const years = Object.keys(tree).sort((a, b) => parseInt(a) - parseInt(b));
 
-  if (years.lenght === 0) return;
+  if (years.length === 0) {
+    return;
+  }
 
   return parseInt(years[0]);
 });
