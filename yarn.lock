@@ -5378,6 +5378,11 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
+react-use-gesture@^7.0.15:
+  version "7.0.15"
+  resolved "https://registry.npm.taobao.org/react-use-gesture/download/react-use-gesture-7.0.15.tgz#93c651e916a31cfb12d079e7fa1543d5b0511e07"
+  integrity sha1-k8ZR6RajHPsS0Hnn+hVD1bBRHgc=
+
 react-window@^1.8.5:
   version "1.8.5"
   resolved "https://registry.npm.taobao.org/react-window/download/react-window-1.8.5.tgz#a56b39307e79979721021f5d06a67742ecca52d1"
