@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import AppMainList from './components/AppMainList';
+import AppNewBillForm from './components/AppNewBillForm';
 import { useStore } from './store/useStore';
 import { initialState, reducers } from './store/reducers';
 import { effects } from './store/effects';
@@ -17,6 +18,7 @@ export function App() {
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>
         <AppMainList />
+        <AppNewBillForm />
       </DispatchContext.Provider>
     </StateContext.Provider>
   );
