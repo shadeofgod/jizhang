@@ -44,3 +44,18 @@ export const useTweenNumber = (target) => {
 
   return n;
 };
+
+export const formatNumber = (value) => {
+  return value
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+export const formatTime = (n) => {
+  return n < 10 ? '0' + n : n + '';
+};
+
+export const isDesktopBrowser = () =>
+  window.screenX !== 0 &&
+  !('ontouchstart' in window || 'onmsgesturechange' in window);
