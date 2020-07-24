@@ -32,6 +32,7 @@ const useStyles = createUseStyles({
     zIndex: 20,
     display: 'flex',
     flexDirection: 'column',
+    userSelect: 'none',
   },
   header: {
     borderBottom: '1px solid #e5eaf6',
@@ -125,6 +126,7 @@ const useStyles = createUseStyles({
     margin: 12,
     flex: 1,
     display: 'flex',
+    userSelect: 'text',
     '& .tip': {
       fontSize: 12,
       marginRight: 12,
