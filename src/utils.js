@@ -28,7 +28,7 @@ export const useTweenNumber = (target) => {
       prevTarget.current = target;
       return;
     }
-    setTimeout(update, 8); // 120 fps
+    requestAnimationFrame(update);
   }, [n]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const useTweenNumber = (target) => {
       return;
     }
     if (prevTarget.current !== target) {
-      step.current = (target - prevTarget.current) / 40; // updating in fixed 40 frames here
+      step.current = (target - prevTarget.current) / 20; // updating in fixed 20 frames here
       updating.current = true;
       requestAnimationFrame(update);
     }
