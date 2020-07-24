@@ -6,7 +6,7 @@
     "start": "rm -rf ./dist && parcel index.html",
     "build": "rm -rf ./bundle && parcel build index.html -d bundle",
     "postinstall": "csvtojson bill.csv > ./src/data/bill.json && csvtojson categories.csv > ./src/data/categories.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "zoubingwu@gmal.com",
   "license": "MIT",
@@ -28,8 +28,10 @@
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "@svgr/parcel-plugin-svgr": "^5.4.0",
+    "babel-jest": "^26.1.0",
     "csvtojson": "^2.0.10",
     "husky": "^4.2.5",
+    "jest": "^26.1.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
     "prettier": "^2.0.5",
