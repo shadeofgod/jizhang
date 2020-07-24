@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { debug } from '../utils';
+import debug from '../utils/debug';
 import { BILL_TYPE, SORTING_METHOD } from './constants';
 
 const d = debug('selectors');

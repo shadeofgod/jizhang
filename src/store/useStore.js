@@ -1,6 +1,6 @@
 import { useReducer, useCallback } from 'react';
 import produce from 'immer';
-import { debug } from '../utils';
+import debug from '../utils/debug';
 
 const d = debug('useStore');
 

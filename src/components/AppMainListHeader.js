@@ -1,6 +1,7 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { formatNumber, useTweenNumber } from '../utils';
+import formatNumber from '../utils/formatNumber';
+import useTweenNumber from '../utils/useTweenNumber';
 import { useSelector } from '../store/context';
 import {
   totalExpenseByMonthSelector,

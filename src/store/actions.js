@@ -1,4 +1,4 @@
-import { noop } from '../utils';
+import noop from '../utils/noop';
 
 export const actionsTypes = {
   FETCH_DATA: 'FETCH_DATA',

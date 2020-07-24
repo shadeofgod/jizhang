@@ -8,7 +8,7 @@ import { initialState, reducers } from './store/reducers';
 import { effects } from './store/effects';
 import { StateContext, DispatchContext } from './store/context';
 import { fetchData } from './store/actions';
-import { debug } from './utils';
+import debug from './utils/debug';
 
 const d = debug('app');
 

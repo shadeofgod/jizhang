@@ -1,9 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
-import createDebugger from 'debug';
-
-export const debug = (namespace) => createDebugger(`xm:${namespace}`);
-
-export const noop = () => {};
+import { useState, useRef, useEffect } from 'react';
 
 export const useTweenNumber = (target) => {
   const updating = useRef(false);
@@ -44,18 +39,3 @@ export const useTweenNumber = (target) => {
 
   return n;
 };
-
-export const formatNumber = (value) => {
-  return value
-    .toFixed(2)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
-
-export const formatTime = (n) => {
-  return n < 10 ? '0' + n : n + '';
-};
-
-export const isDesktopBrowser = () =>
-  window.screenX !== 0 &&
-  !('ontouchstart' in window || 'onmsgesturechange' in window);

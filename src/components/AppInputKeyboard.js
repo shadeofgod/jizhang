@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
-import cx from 'classnames';
 import AppInputKeyboardItem from './AppInputKeyboardItem';
 import IconDelete from '../images/ic_delete.svg';
-import { noop } from '../utils';
+import noop from '../utils/noop';
 
 const useStyles = createUseStyles({
   delete: {

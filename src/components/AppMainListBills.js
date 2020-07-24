@@ -6,7 +6,8 @@ import AppMainListEmpty from './AppMainListEmpty';
 import { useSelector } from '../store/context';
 import { billsByMonthSelector, categoriesSelector } from '../store/selectors';
 import { BILL_TYPE } from '../store/constants';
-import { formatNumber, formatTime } from '../utils';
+import formatNumber from '../utils/formatNumber';
+import formatTime from '../utils/formatTime';
 
 const useStyles = createUseStyles({
   list: {

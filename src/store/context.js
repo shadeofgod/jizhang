@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo } from 'react';
 import { initialState } from './reducers';
-import { noop } from '../utils';
+import noop from '../utils/noop';
 
 export const StateContext = createContext(initialState);
 
