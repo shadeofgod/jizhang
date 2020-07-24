@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-export const useTweenNumber = (target) => {
+const useTweenNumber = (target) => {
   const updating = useRef(false);
   const step = useRef(0);
   const prevTarget = useRef(0);
@@ -39,3 +39,5 @@ export const useTweenNumber = (target) => {
 
   return n;
 };
+
+export default useTweenNumber;
