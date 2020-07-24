@@ -10,6 +10,8 @@ const useStyles = createUseStyles({
     right: 20,
     height: 60,
     width: 60,
+    background: `url(${require('../images/add.png')}) no-repeat`,
+    backgroundSize: '100%',
   },
 });
 
@@ -18,15 +20,9 @@ function AppNewBillButton() {
   const dispatch = useDispatch();
   const onClick = useCallback(() => {
     dispatch(openForm());
-  });
+  }, []);
 
-  return (
-    <img
-      onClick={onClick}
-      src={require('../images/add.png')}
-      className={classes.button}
-    />
-  );
+  return <div onTouchStart={onClick} className={classes.button} />;
 }
 
 export default React.memo(AppNewBillButton);

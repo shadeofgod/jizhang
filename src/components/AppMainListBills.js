@@ -20,16 +20,22 @@ const useStyles = createUseStyles({
     alignItems: 'center',
   },
   listItemDesc: {
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
+    marginRight: 24,
+  },
+  remark: {
+    flex: 1,
+    '& > span': {
+      display: 'inline-block',
+      textOverflow: 'ellipsis',
+      maxWidth: 200,
+      overflow: 'hidden',
+    },
   },
   time: {
     color: 'rgba(255,255,255,0.5)',
     fontSize: 12,
-    '& > span:first-child': {
-      marginRight: 4,
-    },
   },
   name: {
     flex: 1,
@@ -53,8 +59,7 @@ function AppMainListBills() {
       const date = new Date(parseInt(rowData.time));
       const month = date.getMonth() + 1;
       const days = date.getDate();
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
+      const remark = rowData.remark;
       const category = categories[rowData.category];
 
       return (
@@ -62,16 +67,18 @@ function AppMainListBills() {
           <div className={classes.listItemDesc}>
             <span className={classes.name}>{category.name}</span>
             <span className={classes.time}>
-              <span>{`${formatTime(month)}-${formatTime(days)}`}</span>
-              <span>{`${formatTime(hours)}:${formatTime(minutes)}`}</span>
+              {`${formatTime(month)}-${formatTime(days)}`}
             </span>
+          </div>
+          <div className={classes.remark}>
+            <span>{remark}</span>
           </div>
           <div
             className={cx({
               [classes.income]: rowData.type === BILL_TYPE.INCOME,
               [classes.expense]: rowData.type === BILL_TYPE.EXPENSE,
             })}>
-            {formatNumber(parseInt(rowData.amount))}
+            {formatNumber(Number(rowData.amount))}
           </div>
         </div>
       );

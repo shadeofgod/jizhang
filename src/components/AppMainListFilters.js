@@ -1,12 +1,21 @@
-import 'antd-mobile/es/date-picker/style/css';
-
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
-import DatePicker from 'antd-mobile/es/date-picker';
-import { minYearSelector, currentDateSelector } from '../store/selectors';
-import { setCurrentDate } from '../store/actions';
+import Picker from 'antd-mobile/es/picker';
+import {
+  minYearSelector,
+  categoriesSelector,
+  currentDateSelector,
+  currentCategorySelector,
+  currentSortingSelector,
+} from '../store/selectors';
+import {
+  setCurrentDate,
+  setCurrentCategory,
+  setCurrentSorting,
+} from '../store/actions';
 import { useDispatch, useSelector } from '../store/context';
-import IconCalendar from '../images/ic_calendar.svg';
+import { SORTING_METHOD, SORTING_LABEL } from '../store/constants';
+import AppDatePicker from './AppDatePicker';
 
 const useStyles = createUseStyles({
   filters: {
@@ -17,14 +26,18 @@ const useStyles = createUseStyles({
   picker: {
     color: '#fff',
     fontSize: 12,
-    borderRadius: 12,
-    padding: [4, 8, 4, 6],
+    borderRadius: 8,
+    lineHeight: '14px',
+    padding: [8, 12, 8, 10],
     display: 'flex',
     alignItems: 'center',
+    marginRight: 12,
     background: 'rgba(255,255,255,0.2)',
     '& > svg': {
       marginRight: 6,
       fill: '#fff',
+      height: 14,
+      width: 14,
     },
     '& > .title': {
       position: 'relative',
@@ -51,38 +64,72 @@ const useStyles = createUseStyles({
   },
 });
 
-function DatePickerItem({ onClick, className, currentDate }) {
-  return (
-    <div onClick={onClick} className={className}>
-      <IconCalendar width="14px" height="14px" />
-
-      <span className="title">
-        <span className="year">{currentDate.getFullYear()}</span>年
-        <span className="month">{currentDate.getMonth() + 1}</span>月
-      </span>
-    </div>
-  );
-}
+const sortPickerData = Object.values(SORTING_METHOD).map((id) => ({
+  label: SORTING_LABEL[id],
+  value: id,
+}));
 
 function AppMainListFilters() {
   const classes = useStyles();
   const minYear = useSelector(minYearSelector);
   const currentDate = useSelector(currentDateSelector);
+  const categories = useSelector(categoriesSelector);
+  const currentCategoryId = useSelector(currentCategorySelector);
+  const currentCategory = currentCategoryId
+    ? categories[currentCategoryId]
+    : null;
+  const currentSorting = useSelector(currentSortingSelector);
   const dispatch = useDispatch();
+
+  const categoryPickerData = useMemo(() => {
+    return [{ label: '全部', value: null }].concat(
+      Object.values(categories).map((c) => ({ label: c.name, value: c.id }))
+    );
+  }, [categories]);
+
   const onDateChange = useCallback((date) => {
     dispatch(setCurrentDate(date));
   }, []);
+  const onCategoryChange = useCallback(([id]) => {
+    dispatch(setCurrentCategory(id));
+  }, []);
+  const onSortMethodChange = useCallback(([id]) => {
+    dispatch(setCurrentSorting(id));
+  }, []);
+
+  const PickerItem = (props) => {
+    return (
+      <div onClick={props.onClick} className={classes.picker}>
+        <span className="title">{props.title ?? props.extra}</span>
+      </div>
+    );
+  };
 
   return (
     <div className={classes.filters}>
-      <DatePicker
-        mode="month"
+      <AppDatePicker
         value={currentDate}
         minDate={minYear && new Date(minYear, 0, 1)}
         maxDate={new Date()}
-        onChange={onDateChange}>
-        <DatePickerItem className={classes.picker} currentDate={currentDate} />
-      </DatePicker>
+        onChange={onDateChange}
+        itemClassName={classes.picker}
+      />
+
+      <Picker
+        data={categoryPickerData}
+        value={[currentCategoryId]}
+        cols={1}
+        onChange={onCategoryChange}>
+        <PickerItem title={currentCategory?.name ?? '全部账单'} />
+      </Picker>
+
+      <Picker
+        data={sortPickerData}
+        value={[currentSorting]}
+        cols={1}
+        onChange={onSortMethodChange}>
+        <PickerItem title={SORTING_LABEL[currentSorting]} />
+      </Picker>
     </div>
   );
 }

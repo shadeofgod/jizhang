@@ -8,6 +8,9 @@ import { initialState, reducers } from './store/reducers';
 import { effects } from './store/effects';
 import { StateContext, DispatchContext } from './store/context';
 import { fetchData } from './store/actions';
+import { debug } from './utils';
+
+const d = debug('app');
 
 const useStyles = createUseStyles({
   bg: {
@@ -37,6 +40,7 @@ const useStyles = createUseStyles({
 export function App() {
   const classes = useStyles();
   const [state, dispatch] = useStore(reducers, effects, initialState);
+  d('state: %o', state);
 
   const [{ translateZ }, setBackgroundView] = useSpring(() => ({
     translateZ: 0,
