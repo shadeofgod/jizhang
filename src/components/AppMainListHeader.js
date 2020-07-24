@@ -12,8 +12,8 @@ const useStyles = createUseStyles({
   header: {
     background:
       'linear-gradient(180deg,rgba(78,98,149,1) 0%,rgba(90,113,170,1) 1%,rgba(52,68,116,1) 100%)',
-    borderRadius: 15,
-    padding: [18, 18, 18, 18],
+    borderRadius: 8,
+    padding: 18,
     color: '#fff',
   },
   totalExpense: {
