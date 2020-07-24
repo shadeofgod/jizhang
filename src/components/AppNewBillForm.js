@@ -250,7 +250,9 @@ function AppNewBillForm({ setBackgroundView }) {
     setForegroundView({
       translateY: show ? FOREGROUND_TRANSLATE_END : FOREGROUND_TRANSLATE_START,
     });
-    setBackgroundView({ translateZ: show ? -20 : 0 });
+    setBackgroundView({
+      translateZ: show ? BACKGROUND_TRANSLATE_END : BACKGROUND_TRANSLATE_START,
+    });
   }, [show]);
 
   return (
