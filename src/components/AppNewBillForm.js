@@ -257,6 +257,7 @@ function AppNewBillForm({ setBackgroundView }) {
 
   return (
     <animated.div
+      onTouchMove={(e) => e.preventDefault()}
       ref={formDomNode}
       {...bind()}
       className={classes.container}
