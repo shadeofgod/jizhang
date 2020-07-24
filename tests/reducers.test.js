@@ -4,20 +4,21 @@ import { actionsTypes } from '../src/store/actions';
 
 test('reducers: FETCH_DATA_DONE', () => {
   const state1 = initialState;
+  const time = '1561910400000';
   const action1 = {
     type: actionsTypes.FETCH_DATA_DONE,
     payload: {
       bills: [
         {
           type: '0',
-          time: '1561910400000',
+          time,
           category: '8s0p77c323',
           amount: '5400',
           id: 1,
         },
         {
           type: '0',
-          time: '1561910400000',
+          time,
           category: '0fnhbcle6hg',
           amount: '1500',
           id: 2,
@@ -37,14 +38,14 @@ test('reducers: FETCH_DATA_DONE', () => {
   expect(state2.bills).toEqual({
     '1': {
       type: '0',
-      time: '1561910400000',
+      time,
       category: '8s0p77c323',
       amount: '5400',
       id: 1,
     },
     '2': {
       type: '0',
-      time: '1561910400000',
+      time,
       category: '0fnhbcle6hg',
       amount: '1500',
       id: 2,
@@ -56,8 +57,8 @@ test('reducers: FETCH_DATA_DONE', () => {
     '8s0p77c323': { id: '8s0p77c323', type: '0', name: '房贷' },
   });
   expect(state2.billsTree).toEqual({
-    '2019': {
-      '7': {
+    [new Date(Number(time)).getFullYear() + '']: {
+      [new Date(Number(time)).getMonth() + 1 + '']: {
         '0': [1, 2],
       },
     },
