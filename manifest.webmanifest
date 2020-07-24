@@ -1,7 +1,7 @@
 {
-  "short_name": "Weather",
-  "name": "Weather: Do I need an umbrella?",
-  "description": "Weather forecast information",
+  "short_name": "Jizhang",
+  "name": "记账本",
+  "description": "a simple and delightful bookkeeping app",
   "icons": [
     {
       "src": "/assets/android-chrome-192x192.png",
