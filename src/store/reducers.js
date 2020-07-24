@@ -1,63 +1,69 @@
 import { actionsTypes } from './actions';
+import { DEFAULT_CATEGORY, SORTING_METHOD } from './constants';
 
 export const initialState = {
   bills: {},
-  categories: {},
+  categories: {
+    [DEFAULT_CATEGORY.id]: DEFAULT_CATEGORY,
+  },
 
   // a tree data structure to store all the bills by time
   // year -> month -> type -> bill[]
   billsTree: {},
   currentDate: new Date(),
+  currentCategory: null,
+  curreentSorting: SORTING_METHOD.TIME_DESC,
 
   showForm: false,
 };
 
 export const reducers = {
-  [actionsTypes.FETCH_DATA_DONE]: fetchDataDone,
-  [actionsTypes.SET_CURRENT_DATE]: setCurrentDate,
-  [actionsTypes.OPEN_FORM]: openForm,
-  [actionsTypes.CLOSE_FORM]: closeForm,
+  [actionsTypes.FETCH_DATA_DONE](state, { payload }) {
+    const { bills, categories } = payload;
+    bills.forEach((b) => {
+      state.bills[b.id] = b;
+      insertBill(state.billsTree, b);
+    });
+    categories.forEach((c) => (state.categories[c.id] = c));
+  },
+  [actionsTypes.SET_CURRENT_DATE](state, { payload }) {
+    state.currentDate = payload.date;
+  },
+  [actionsTypes.OPEN_FORM](state) {
+    state.showForm = true;
+  },
+  [actionsTypes.CLOSE_FORM](state) {
+    state.showForm = false;
+  },
+  [actionsTypes.SUBMIT_FORM](state, { payload }) {
+    const bill = { ...payload, id: Date.now() };
+    state.bills[bill.id] = bill;
+    insertBill(state.billsTree, bill);
+  },
+  [actionsTypes.SET_CURRENT_CATEGORY](state, { payload }) {
+    state.currentCategory = payload.id;
+  },
+  [actionsTypes.SET_CURRENT_SORTING](state, { payload }) {
+    state.curreentSorting = payload.id;
+  },
 };
 
-function fetchDataDone(state, { payload }) {
-  const { bills, categories } = payload;
-  state.bills = bills.reduce((a, b) => {
-    a[b.id] = b;
-    return a;
-  }, {});
-  state.categories = categories.reduce((a, b) => {
-    a[b.id] = b;
-    return a;
-  }, {});
-  bills.forEach((bill) => {
-    const date = new Date(parseInt(bill.time));
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const type = bill.type;
+function insertBill(billsTree, bill) {
+  const date = new Date(parseInt(bill.time));
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const type = bill.type;
 
-    if (!state.billsTree[year]) {
-      state.billsTree[year] = {};
-      state.billsTree[year][month] = {};
-      state.billsTree[year][month][type] = [bill.id];
-    } else if (!state.billsTree[year][month]) {
-      state.billsTree[year][month] = {};
-      state.billsTree[year][month][type] = [bill.id];
-    } else if (!state.billsTree[year][month][type]) {
-      state.billsTree[year][month][type] = [bill.id];
-    } else {
-      state.billsTree[year][month][type].push(bill.id);
-    }
-  });
-}
-
-function setCurrentDate(state, { payload }) {
-  state.currentDate = payload.date;
-}
-
-function openForm(state) {
-  state.showForm = true;
-}
-
-function closeForm(state) {
-  state.showForm = false;
+  if (!billsTree[year]) {
+    billsTree[year] = {};
+    billsTree[year][month] = {};
+    billsTree[year][month][type] = [bill.id];
+  } else if (!billsTree[year][month]) {
+    billsTree[year][month] = {};
+    billsTree[year][month][type] = [bill.id];
+  } else if (!billsTree[year][month][type]) {
+    billsTree[year][month][type] = [bill.id];
+  } else {
+    billsTree[year][month][type].push(bill.id);
+  }
 }

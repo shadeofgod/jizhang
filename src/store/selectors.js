@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { debug } from '../utils';
-import { BILL_TYPE } from './constants';
+import { BILL_TYPE, SORTING_METHOD } from './constants';
 
 const d = debug('selectors');
 
@@ -8,6 +8,8 @@ export const billsSelector = (state) => state.bills;
 export const billsTreeSelector = (state) => state.billsTree;
 export const currentDateSelector = (state) => state.currentDate;
 export const categoriesSelector = (state) => state.categories;
+export const currentCategorySelector = (state) => state.currentCategory;
+export const currentSortingSelector = (state) => state.curreentSorting;
 
 export const minYearSelector = createSelector(billsTreeSelector, (tree) => {
   const years = Object.keys(tree).sort((a, b) => parseInt(a) - parseInt(b));
@@ -20,8 +22,14 @@ export const minYearSelector = createSelector(billsTreeSelector, (tree) => {
 });
 
 export const billsByMonthSelector = createSelector(
-  [billsTreeSelector, billsSelector, currentDateSelector],
-  (tree, bills, date) => {
+  [
+    billsTreeSelector,
+    billsSelector,
+    currentDateSelector,
+    currentCategorySelector,
+    currentSortingSelector,
+  ],
+  (tree, bills, date, category, sorting) => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const billsGroupByType = tree?.[year]?.[month];
@@ -29,7 +37,23 @@ export const billsByMonthSelector = createSelector(
       return Object.values(billsGroupByType)
         .flat()
         .map((id) => bills[id])
-        .sort((a, b) => parseInt(b.time) - parseInt(a.time));
+        .filter((b) => {
+          if (category) {
+            return b.category === category;
+          }
+          return true;
+        })
+        .sort((a, b) => {
+          if (sorting === SORTING_METHOD.TIME_DESC) {
+            return Number(b.time) - Number(a.time);
+          } else if (sorting === SORTING_METHOD.TIME_ASC) {
+            return Number(a.time) - Number(b.time);
+          } else if (sorting === SORTING_METHOD.AMOUNT_DESC) {
+            return Number(b.amount) - Number(a.amount);
+          } else if (sorting === SORTING_METHOD.AMOUNT_ASC) {
+            return Number(a.amount) - Number(b.amount);
+          }
+        });
     }
     return [];
   }
