@@ -1,10 +1,10 @@
 {
-  "name": "xmind-fe",
-  "version": "1.0.0",
-  "description": "a demo for xmind fe interview",
+  "name": "jizhang",
+  "version": "1.0.3",
+  "description": "a delightful bookkeeping web app with react and react-spring.",
   "scripts": {
     "start": "rm -rf ./dist && parcel index.html",
-    "build": "rm -rf ./bundle && parcel build index.html -d bundle",
+    "build": "parcel build index.html -d bundle --public-url /jizhang",
     "postinstall": "csvtojson bill.csv > ./src/data/bill.json && csvtojson categories.csv > ./src/data/categories.json",
     "test": "jest"
   },
