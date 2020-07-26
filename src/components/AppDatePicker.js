@@ -17,11 +17,9 @@ function DatePickerItem({
       {showIcon && <IconCalendar />}
       {children}
       <span className="title">
-        <span className="year">{value.getFullYear()}</span>年
-        <span className="month">{value.getMonth() + 1}</span>月
-        {mode === 'date' && (
-          <span className="day">{' ' + value.getDate() + ' 日'}</span>
-        )}
+        <span>{value.getFullYear()}年</span>
+        <span>{value.getMonth() + 1}月</span>
+        {mode === 'date' && <span>{value.getDate()}日</span>}
       </span>
     </div>
   );

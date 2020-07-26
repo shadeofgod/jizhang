@@ -17,8 +17,8 @@ export const SORTING_METHOD = {
 };
 
 export const SORTING_LABEL = {
-  [SORTING_METHOD.TIME_DESC]: '按时间降序',
-  [SORTING_METHOD.TIME_ASC]: '按时间升序',
-  [SORTING_METHOD.AMOUNT_DESC]: '按金额降序',
-  [SORTING_METHOD.AMOUNT_ASC]: '按金额升序',
+  [SORTING_METHOD.TIME_DESC]: '时间降序',
+  [SORTING_METHOD.TIME_ASC]: '时间升序',
+  [SORTING_METHOD.AMOUNT_DESC]: '金额降序',
+  [SORTING_METHOD.AMOUNT_ASC]: '金额升序',
 };

@@ -7,11 +7,13 @@ import {
   currentDateSelector,
   currentCategorySelector,
   currentSortingSelector,
+  shouldMergeCategorySelector,
 } from '../store/selectors';
 import {
   setCurrentDate,
   setCurrentCategory,
   setCurrentSorting,
+  setShouldMergeCategory,
 } from '../store/actions';
 import { useDispatch, useSelector } from '../store/context';
 import { SORTING_METHOD, SORTING_LABEL } from '../store/constants';
@@ -28,10 +30,10 @@ const useStyles = createUseStyles({
     fontSize: 12,
     borderRadius: 8,
     lineHeight: '14px',
-    padding: [8, 12, 8, 10],
+    padding: [8, 6],
     display: 'flex',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: 8,
     background: 'rgba(255,255,255,0.2)',
     '& > svg': {
       marginRight: 6,
@@ -54,13 +56,16 @@ const useStyles = createUseStyles({
         borderTop: '4px solid white',
       },
     },
-    '& .year': {
-      marginRight: 4,
-    },
-    '& .month': {
-      marginRight: 4,
-      marginLeft: 4,
-    },
+  },
+  checkbox: {
+    background: 'rgba(255,255,255,0.2)',
+    borderRadius: 8,
+    color: '#fff',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 12,
+    padding: [0, 6],
   },
 });
 
@@ -68,6 +73,11 @@ const sortPickerData = Object.values(SORTING_METHOD).map((id) => ({
   label: SORTING_LABEL[id],
   value: id,
 }));
+
+const shouldMergePickerData = [
+  { label: '合并', value: 1 },
+  { label: '不合并', value: 0 },
+];
 
 function AppMainListFilters() {
   const classes = useStyles();
@@ -79,6 +89,7 @@ function AppMainListFilters() {
     ? categories[currentCategoryId]
     : null;
   const currentSorting = useSelector(currentSortingSelector);
+  const shouldMergeCategory = useSelector(shouldMergeCategorySelector);
   const dispatch = useDispatch();
 
   const categoryPickerData = useMemo(() => {
@@ -95,6 +106,9 @@ function AppMainListFilters() {
   }, []);
   const onSortMethodChange = useCallback(([id]) => {
     dispatch(setCurrentSorting(id));
+  }, []);
+  const onShouldMergeChange = useCallback(([id]) => {
+    dispatch(setShouldMergeCategory(id));
   }, []);
 
   const PickerItem = (props) => {
@@ -129,6 +143,14 @@ function AppMainListFilters() {
         cols={1}
         onChange={onSortMethodChange}>
         <PickerItem title={SORTING_LABEL[currentSorting]} />
+      </Picker>
+
+      <Picker
+        data={shouldMergePickerData}
+        value={[shouldMergeCategory]}
+        cols={1}
+        onChange={onShouldMergeChange}>
+        <PickerItem title={shouldMergeCategory ? '合并' : '不合并'} />
       </Picker>
     </div>
   );

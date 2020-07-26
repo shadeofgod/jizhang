@@ -10,6 +10,7 @@ export const currentDateSelector = (state) => state.currentDate;
 export const categoriesSelector = (state) => state.categories;
 export const currentCategorySelector = (state) => state.currentCategory;
 export const currentSortingSelector = (state) => state.curreentSorting;
+export const shouldMergeCategorySelector = (state) => state.shouldMergeCategory;
 
 export const minYearSelector = createSelector(billsTreeSelector, (tree) => {
   const years = Object.keys(tree).sort((a, b) => parseInt(a) - parseInt(b));
@@ -21,6 +22,15 @@ export const minYearSelector = createSelector(billsTreeSelector, (tree) => {
   return parseInt(years[0]);
 });
 
+const createSorter = (sorting) => (a, b) => {
+  return {
+    [SORTING_METHOD.TIME_DESC]: Number(b.time) - Number(a.time),
+    [SORTING_METHOD.TIME_ASC]: Number(a.time) - Number(b.time),
+    [SORTING_METHOD.AMOUNT_DESC]: Number(b.amount) - Number(a.amount),
+    [SORTING_METHOD.AMOUNT_ASC]: Number(a.amount) - Number(b.amount),
+  }[sorting];
+};
+
 export const billsByMonthSelector = createSelector(
   [
     billsTreeSelector,
@@ -28,32 +38,38 @@ export const billsByMonthSelector = createSelector(
     currentDateSelector,
     currentCategorySelector,
     currentSortingSelector,
+    shouldMergeCategorySelector,
   ],
-  (tree, bills, date, category, sorting) => {
+  (tree, bills, date, category, sorting, shouldMerge) => {
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const billsGroupByType = tree?.[year]?.[month];
     if (billsGroupByType) {
-      return Object.values(billsGroupByType)
+      let billsOfThisMonth = Object.values(billsGroupByType)
         .flat()
-        .map((id) => bills[id])
-        .filter((b) => {
-          if (category) {
-            return b.category === category;
-          }
-          return true;
-        })
-        .sort((a, b) => {
-          if (sorting === SORTING_METHOD.TIME_DESC) {
-            return Number(b.time) - Number(a.time);
-          } else if (sorting === SORTING_METHOD.TIME_ASC) {
-            return Number(a.time) - Number(b.time);
-          } else if (sorting === SORTING_METHOD.AMOUNT_DESC) {
-            return Number(b.amount) - Number(a.amount);
-          } else if (sorting === SORTING_METHOD.AMOUNT_ASC) {
-            return Number(a.amount) - Number(b.amount);
-          }
-        });
+        .map((id) => bills[id]);
+
+      if (category) {
+        billsOfThisMonth = billsOfThisMonth.filter(
+          (b) => b.category === category
+        );
+      }
+
+      if (shouldMerge) {
+        billsOfThisMonth = Object.values(
+          billsOfThisMonth.reduce((a, b) => {
+            const prev = a[b.category];
+            if (prev) {
+              prev.amount = Number(b.amount) + Number(prev.amount) + '';
+            } else {
+              a[b.category] = { ...b }; // copy to prevent mutate
+            }
+            return a;
+          }, {})
+        );
+      }
+
+      return billsOfThisMonth.sort(createSorter(sorting));
     }
     return [];
   }

@@ -9,6 +9,7 @@ export const actionsTypes = {
   SUBMIT_FORM: 'SUBMIT_FORM',
   SET_CURRENT_CATEGORY: 'SET_CURRENT_CATEGORY',
   SET_CURRENT_SORTING: 'SET_CURRENT_SORTING',
+  SHOULD_MERGE_CATEGORY: 'SHOULD_MERGE_CATEGORY',
 };
 
 function createActionCreator(actionType, transformer = noop) {
@@ -43,6 +44,11 @@ export const setCurrentCategory = createActionCreator(
 export const setCurrentSorting = createActionCreator(
   actionsTypes.SET_CURRENT_SORTING,
   (id) => ({ id })
+);
+
+export const setShouldMergeCategory = createActionCreator(
+  actionsTypes.SHOULD_MERGE_CATEGORY,
+  (value) => ({ value })
 );
 
 export const openForm = createActionCreator(actionsTypes.OPEN_FORM);

@@ -15,6 +15,7 @@ export const initialState = {
   curreentSorting: SORTING_METHOD.TIME_DESC,
 
   showForm: false,
+  shouldMergeCategory: 0,
 };
 
 export const reducers = {
@@ -45,6 +46,10 @@ export const reducers = {
   },
   [actionsTypes.SET_CURRENT_SORTING](state, { payload }) {
     state.curreentSorting = payload.id;
+  },
+  [actionsTypes.SHOULD_MERGE_CATEGORY](state, { payload }) {
+    state.shouldMergeCategory = payload.value;
+    state.curreentSorting = SORTING_METHOD.AMOUNT_DESC;
   },
 };
 

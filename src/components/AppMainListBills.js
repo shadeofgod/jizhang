@@ -4,7 +4,11 @@ import cx from 'classnames';
 import { FixedSizeList as List } from 'react-window';
 import AppMainListEmpty from './AppMainListEmpty';
 import { useSelector } from '../store/context';
-import { billsByMonthSelector, categoriesSelector } from '../store/selectors';
+import {
+  billsByMonthSelector,
+  categoriesSelector,
+  shouldMergeCategorySelector,
+} from '../store/selectors';
 import { BILL_TYPE } from '../store/constants';
 import formatNumber from '../utils/formatNumber';
 import formatTime from '../utils/formatTime';
@@ -53,6 +57,7 @@ function AppMainListBills() {
   const classes = useStyles();
   const billsByMonth = useSelector(billsByMonthSelector);
   const categories = useSelector(categoriesSelector);
+  const shouldMerge = useSelector(shouldMergeCategorySelector);
 
   const Row = useCallback(
     ({ index, style }) => {
@@ -67,9 +72,11 @@ function AppMainListBills() {
         <div style={style} className={classes.listItem}>
           <div className={classes.listItemDesc}>
             <span className={classes.name}>{category.name}</span>
-            <span className={classes.time}>
-              {`${formatTime(month)}-${formatTime(days)}`}
-            </span>
+            {!shouldMerge && (
+              <span className={classes.time}>
+                {`${formatTime(month)}-${formatTime(days)}`}
+              </span>
+            )}
           </div>
           <div className={classes.remark}>
             <span>{remark}</span>

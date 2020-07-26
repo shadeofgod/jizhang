@@ -40,11 +40,11 @@ const useStyles = createUseStyles({
     justifyContent: 'space-around',
     alignItems: 'center',
     fontSize: 14,
-    padding: [12, 0],
     color: '#fff',
   },
   headerItem: {
     position: 'relative',
+    padding: [12, 0],
     width: '50%',
     textAlign: 'center',
     '&.selected:after': {
@@ -54,7 +54,7 @@ const useStyles = createUseStyles({
       backgroundColor: '#fff',
       position: 'absolute',
       display: 'block',
-      bottom: -13,
+      bottom: -1,
     },
   },
   amount: {
@@ -268,14 +268,16 @@ function AppNewBillForm({ setBackgroundView }) {
       }}>
       <header className={classes.header}>
         <div
-          onClick={() => handleFormValueChange({ type: BILL_TYPE.INCOME })}
+          onTouchStart={() => handleFormValueChange({ type: BILL_TYPE.INCOME })}
           className={cx(classes.headerItem, {
             selected: type === BILL_TYPE.INCOME,
           })}>
           收入
         </div>
         <div
-          onClick={() => handleFormValueChange({ type: BILL_TYPE.EXPENSE })}
+          onTouchStart={() =>
+            handleFormValueChange({ type: BILL_TYPE.EXPENSE })
+          }
           className={cx(classes.headerItem, {
             selected: type === BILL_TYPE.EXPENSE,
           })}>
@@ -312,7 +314,9 @@ function AppNewBillForm({ setBackgroundView }) {
         </AppDatePicker>
       </div>
 
-      <div className={classes.remark} onClick={() => inputRef.current.focus()}>
+      <div
+        className={classes.remark}
+        onTouchStart={() => inputRef.current.focus()}>
         <span>
           <span className="tip">备注</span>
         </span>
