@@ -39,6 +39,8 @@ function AppMainListHeader() {
   const totalExpense = useSelector(totalExpenseByMonthSelector);
   const totalIncome = useSelector(totalIncomeByMonthSelector);
   const totalExpenseTween = useTweenNumber(totalExpense);
+  const totalIncomeTween = useTweenNumber(totalIncome);
+  const balanceTween = useTweenNumber(totalIncome - totalExpense);
 
   return (
     <header className={classes.header}>
@@ -48,11 +50,11 @@ function AppMainListHeader() {
       </div>
       <div className={classes.desc}>
         <span className={classes.totalIncome}>
-          本月收入：{formatNumber(totalIncome)}
+          本月收入：{formatNumber(totalIncomeTween)}
         </span>
         <span>|</span>
         <span className={classes.balance}>
-          结余：{formatNumber(totalIncome - totalExpense)}
+          结余：{formatNumber(balanceTween)}
         </span>
       </div>
     </header>
