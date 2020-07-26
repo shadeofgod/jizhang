@@ -8,6 +8,8 @@ a simple but delightful bookkeeping app built with react.
 
 **只支持移动端浏览器**，可以通过添加到主屏幕来获得更好的体验。
 
+![](./preview.gif)
+
 ## Background
 
 这实际上是一个 [XMind 前端面试题 - 「打造一个简单记账本应用程序」](https://github.com/xmindltd/hiring/blob/master/frontend-1/README.md)。
