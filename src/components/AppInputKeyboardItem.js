@@ -41,7 +41,7 @@ function AppInputKeyboardItem({
 
   return (
     <td
-      onClick={onItemClick}
+      onTouchEnd={onItemClick}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       className={cx(className, classes.button, pressed && classes.pressed)}
