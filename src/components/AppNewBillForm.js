@@ -255,6 +255,10 @@ function AppNewBillForm({ setBackgroundView }) {
     setBackgroundView({
       translateZ: show ? BACKGROUND_TRANSLATE_END : BACKGROUND_TRANSLATE_START,
     });
+
+    if (!show) {
+      inputRef.current?.inputRef?.inputRef?.blur();
+    }
   }, [show]);
 
   return (
@@ -314,9 +318,7 @@ function AppNewBillForm({ setBackgroundView }) {
         </AppDatePicker>
       </div>
 
-      <div
-        className={classes.remark}
-        onTouchStart={() => inputRef.current.focus()}>
+      <div className={classes.remark} onClick={() => inputRef.current.focus()}>
         <span>
           <span className="tip">备注</span>
         </span>
