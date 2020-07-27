@@ -6,7 +6,7 @@ a simple but delightful bookkeeping app built with react.
 
 **Only supported mobile browser.** Adding it to home screen for better experience!
 
-**只支持移动端浏览器**，可以通过添加到主屏幕来获得更好的体验。
+**只支持移动端浏览器**，可以通过添加到主屏幕来获得更好的体验，资源部署在 Github Pages，可能存在访问较慢的问题，建议开翻墙。
 
 ![](./preview.gif)
 
