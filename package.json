@@ -1,6 +1,6 @@
 {
   "name": "jizhang",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "a delightful bookkeeping web app with react and react-spring.",
   "scripts": {
     "start": "rm -rf ./dist && parcel index.html",
