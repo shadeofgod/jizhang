@@ -21,6 +21,7 @@ const useStyles = createUseStyles({
     position: 'absolute',
     top: 0,
     left: 0,
+    transform: 'translate3d(0,0, -100px)',
   },
   container: {
     userSelect: 'none',
@@ -62,7 +63,7 @@ export function App() {
           className={classes.container}
           style={{
             transform: translateZ.interpolate(
-              (v) => `perspective(400px) translateZ(${v}px)`
+              (v) => `perspective(400px) translate3d(0, 0, ${v}px)`
             ),
           }}>
           <AppMainList />

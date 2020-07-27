@@ -99,14 +99,16 @@ function AppMainListBills() {
   }
 
   return (
-    <List
-      className={classes.list}
-      height={document.body.clientHeight - 230}
-      itemCount={billsByMonth.length}
-      itemSize={50}
-      width={'100%'}>
-      {Row}
-    </List>
+    <div onScroll={(e) => e.nativeEvent.stopImmediatePropagation()}>
+      <List
+        className={classes.list}
+        height={document.body.clientHeight - 230}
+        itemCount={billsByMonth.length}
+        itemSize={50}
+        width={'100%'}>
+        {Row}
+      </List>
+    </div>
   );
 }
 
