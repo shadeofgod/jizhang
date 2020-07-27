@@ -28,16 +28,17 @@ a simple but delightful bookkeeping app built with react.
 
 - 没有高覆盖率的测试，只包含了比较有限的单元测试以展示编写测试的能力
 - 没有针对桌面端网站的支持，因内容有限，只完成了对移动端浏览器的支持
-- 没有完善的浏览器兼容性测试，只测试了最新的 chrome 和 safari 浏览器
+- 没有完善的浏览器兼容性测试，只测试了最新的 chrome 和 safari 浏览器，可能会有奇怪的 bug
 - 没有 Server 端，一些基本数据来自 csv 文件，开发时会通过脚本将其转换为 JSON 并打包进入最后的产物
+- 没有完善的错误处理
 - 没有本地数据的持久化，刷新即重置所有新增的数据
 - 暂不支持添加新的账单分类
 
 ## Development
 
-Requirement:
+Environment:
 
-- macOS (Windows/Linux should be fine but not tested.)
+- macOS Mojave (Windows/Linux should be fine but not tested.)
 - Node.js 10 or above
 - Yarn 1.19 (npm also works but yarn was recommended.)
 
@@ -78,3 +79,5 @@ when build finished you can analyze bundle size at bundle/report.html
 7. 对于账单数据，为了优化查询效率，在拉取到相关的数据后会创建一颗形状为 **年 -> 月 -> 类型 -> id 合集** 的树，切换月份时则可以直接根据对应的年份和月份查询到相关的账单数据的合集，然后再进行进一步的筛选。
 8. 相关计算数据查询的方式都使用了 memoize 技术进行缓存，只有当依赖变化时才会重新进行计算，否则直接使用上一次的缓存。
 9. 渲染性能方面，列表页使用了 react-window 进行虚拟渲染，只会将可视范围内的数据渲染出真实的 DOM 节点。组件使用了 `React.memo`，在触发渲染时会进行浅比较，只有在 props 或者内部状态变化时才会触发 re-render。
+10. 通过 Github Actions 自动部署到 Github Pages，由于域名使用了 Cloud Flare 转发，因此国内访问速度还有待改善。
+11. 配置了 prettier 和 husky，在 commit 之前会自动触发 prettier 以统一代码风格，linter 等也是可配置的，但此处暂时省去了。
